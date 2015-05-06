@@ -89,7 +89,7 @@ describe( 'Templates', function() {
 						path.resolve( './spec/data/one/template/v0.0.5/package.json' ),
 						path.resolve( './spec/data/one/template/v0.0.5/src/index.js' ),
 					],
-					path: '/git/labs/blu/spec/data/one/template/v0.0.5',
+					path: path.resolve( './spec/data/one/template/v0.0.5' ),
 					prompts: [
 						{
 							message: 'Project name',
