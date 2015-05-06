@@ -1,0 +1,33 @@
+{
+	"before": {
+		"npm-clear": {
+			"cwd": "./",
+			"cmd": {
+				"win32": "deltree",
+				"*": "rm"
+			},
+			"args": {
+				"win32": [ "./node_modules" ],
+				"*": [ "-rf", "./node_modules" ]
+			}
+		}
+	},
+	"after": {
+		"npm-libs": {
+			"cwd": "./",
+			"cmd": {
+				"win32": "npm.cmd",
+				"*": "npm"
+			},
+			"args": [ "install" ]
+		},
+		"npm-dependencies": {
+			"cwd": "./",
+			"cmd": {
+				"win32": "npm.cmd",
+				"*": "npm"
+			},
+			"args": [ "install", "autohost", "hyped", "when", "lodash", "fount" ]
+		}
+	}
+}

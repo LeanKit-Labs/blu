@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+var commander = require( 'commander' );
+var cli = require( '../src/cli' );
+commander
+	.arguments( '<repo> [version]' )
+	.action( function( repo, version ) {
+		var parts = repo.split( '/' );
+		var owner = parts[ 0 ];
+		var project = parts[ 1 ];
+		cli.remove( owner, project, version );
+	} )
+	.parse( process.argv );

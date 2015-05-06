@@ -1,0 +1,57 @@
+{
+  "name": "blu",
+  "version": "0.1.0",
+  "description": "GitHub powered project templating",
+  "bin": {
+    "blu": "./bin/blu"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LeanKit-Labs/blu"
+  },
+  "keywords": [
+    "templating",
+    "template"
+  ],
+  "author": "LeanKit",
+  "contributors": [
+    {
+      "name": "Alex Robson",
+      "url": "http://nerdventure.io"
+    }
+  ],
+  "license": "MIT License - http://opensource.org/licenses/MIT",
+  "bugs": {
+    "url": "https://github.com/LeanKit-Labs/blu/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "homepage": "https://github.com/LeanKit-Labs/blu",
+  "devDependencies": {
+    "biggulp": "~0.0.2",
+    "chai": "^2.1.1",
+    "chai-as-promised": "^4.3.0",
+    "gulp": "^3.8.11",
+    "proxyquire": "^1.4.0",
+    "rimraf": "^2.3.3",
+    "sinon": "^1.14.1"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "drudgeon": "^0.1.6",
+    "github": "^0.2.4",
+    "inquirer": "^0.8.2",
+    "lodash": "^3.6.0",
+    "machina": "^1.0.0",
+    "mkdirp": "^0.5.0",
+    "request": "^2.55.0",
+    "rimraf": "^2.3.3",
+    "semver": "^4.3.4",
+    "tar": "^2.1.0",
+    "when": "^3.7.2"
+  }
+}

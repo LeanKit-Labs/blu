@@ -1,0 +1,3 @@
+{
+	"./resource.js": "./resources/${resourceName}/resource.js"
+}

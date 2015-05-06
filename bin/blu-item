@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+var commander = require( 'commander' );
+var cli = require( '../src/cli' );
+commander
+	.arguments( '<repo> [version] [item]' )
+	.action( function( repo, version, item ) {
+		if( !item ) {
+			item = version;
+			version = undefined;
+		}
+		var parts = repo.split( '/' );
+		var owner = parts[ 0 ];
+		var project = parts[ 1 ];
+		cli.create( owner, project, version, item );
+	} )
+	.parse( process.argv );

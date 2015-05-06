@@ -1,0 +1,1 @@
+require( './command' )( process.argv );

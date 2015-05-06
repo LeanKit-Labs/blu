@@ -1,0 +1,38 @@
+{
+  "name": "${projectName}",
+  "version": "0.1.0",
+  "description": "${description}",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/${owner}/${projectName}"
+  },
+  "keywords": [
+  ],
+  "author": "${author}",
+  "contributors": [
+    {
+    }
+  ],
+  "license": "MIT License - http://opensource.org/licenses/MIT",
+  "bugs": {
+    "url": "https://github.com/${owner}/${projectName}/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/${projectName}"
+  },
+  "homepage": "https://github.com/${owner}/${projectName}",
+  "devDependencies": {
+    "biggulp": "0.*.*",
+    "chai": "^2.1.1",
+    "chai-as-promised": "^4.3.0",
+    "gulp": "3.*.*",
+    "proxyquire": "~1.4.0",
+    "sinon": "~1.14.1"
+  },
+  "dependencies": {
+  }
+}
