@@ -80,6 +80,7 @@ function getTemplate( owner, repo, version ) {
 	}
 	function onTemplateMissing( err ) {
 		console.error( err.message );
+		process.exit( 1 );
 	}
 	return create( owner, repo )
 		.then( onTemplate, onTemplateMissing );

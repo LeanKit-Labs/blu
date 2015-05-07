@@ -37,12 +37,20 @@ function attachFile( target, file ) {
 function loadVersion( owner, repo, versionPaths, version ) {
 	var versionPath = versionPaths[ version ];
 	if ( !versionPath ) {
-		return when.reject( new Error( util.format(
-			'Version "%s" is not installed for "%s/%s"',
-			version,
-			owner,
-			repo
-		) ) );
+		var error = version ?
+			new Error( util.format(
+				'Version "%s" is not installed for "%s/%s"',
+				version,
+				owner,
+				repo
+			) ) :
+			new Error( util.format(
+				'No installed versions exist for for "%s/%s"',
+				version,
+				owner,
+				repo
+			) );
+		return when.reject( error );
 	}
 	return fs.listFiles( versionPath )
 		.then( function( files ) {
