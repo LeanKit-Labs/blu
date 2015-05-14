@@ -14,6 +14,9 @@ All files can use inline [`lodash`](https://github.com/lodash/lodash) templates.
 ### Prompts
 `blu` uses a `.prompt.js` file to specify how to collect each template variable. [`Inquirer`](https://github.com/SBoudrias/Inquirer.js) is used to collect answers so the metadata provided by this file can take full advantage of its features.
 
+`blu` now supports two formats for what this module exports - a simple array of prompts and a hash that can specify prompts as well as before and after processors.
+
+#### Prompt Array
 ```javascript
 // a very simple template with only one variable would only need a single prompt
 module.exports = [
@@ -23,6 +26,30 @@ module.exports = [
 		message: 'Project name'
 	}
 ];
+```
+
+#### Prompt Hash
+The before function should return a hash or a promise that resolves to one that will be passed down-stream.
+
+The after function is passed the merged answers from the prompts and the result of the before call and should return a hash or a promise that resolves to one.
+
+```javascript
+// this example won't change anything, it only demonstrates the format
+module.exports = {
+	before: function() {
+		return {}; // well, that was boring
+	},
+	prompts: [
+		{
+			name: 'projectName',
+			type: 'input',
+			message: 'Project name'
+		}
+	],
+	after: function( answers ) {
+		return answers; // also boring
+	}
+};
 ```
 
 ### Context
