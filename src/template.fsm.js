@@ -12,7 +12,7 @@ function createFsm( targetPath, template ) {
 				if ( template.commands && !_.isEmpty( template.commands.before ) ) {
 					this.steps.push( 'pre' );
 				}
-				if ( template.prompts && template.prompts.length > 0 ) {
+				if ( template.prompts && !_.isEmpty( template.prompts ) ) {
 					this.steps.push( 'prompt' );
 				}
 				if ( template.files ) {
