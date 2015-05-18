@@ -1,8 +1,9 @@
-## 0.1.*
+## 0.1.x
 
+### 0.1.1
 
-### 0.1.*
-Add support for prompts that include before and after calls that allow for priming and post-processing user input.
+ * Better error messages for missing template versions.
+ * Exit CLI when requested template is missing.
 
 ### 0.1.0
-Initial release.
+Initial release
