@@ -45,8 +45,7 @@ function loadVersion( owner, repo, versionPaths, version ) {
 				repo
 			) ) :
 			new Error( util.format(
-				'No installed versions exist for for "%s/%s"',
-				version,
+				'No installed versions exist for "%s/%s"',
 				owner,
 				repo
 			) );
