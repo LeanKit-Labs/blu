@@ -131,9 +131,12 @@ function installVersion( owner, repo, version, versions ) {
 		url = latest.url;
 	}
 	releases.download( ROOT_PATH, owner, repo, version, url )
-		.then( function( result ) {
-			return releases.extract( result );
-		} );
+		.then( onDownload );
+}
+
+function onDownload( result ) {
+	return releases.extract( result )
+		.then( releases.installModules );
 }
 
 function items( owner, repo, version ) {
