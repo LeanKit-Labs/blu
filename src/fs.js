@@ -49,6 +49,15 @@ function getTree( current, depth ) {
 		.then( onFiles );
 }
 
+function getCommands( current ) {
+	return listFiles( current )
+		.then( function( list ) {
+			return _.filter( list, function( file ) {
+				return /[\/][.]commands.json$/.test( file );
+			} );
+		} );
+}
+
 function listFiles( current ) {
 	function fork( file, stat ) {
 		if ( stat.isDirectory() ) {
@@ -90,6 +99,7 @@ function removeTemplate( parent, owner, repo, version ) {
 	parent = parent.replace( /~/, process.env.HOME );
 	var target = path.join( parent, owner, repo, version || '' );
 	if ( fs.existsSync( target ) ) {
+		console.log( '  REMOVING DIRECTORY AND CONTENTS', target );
 		return lift( rimraf )( target );
 	}
 	return when.reject(
@@ -102,6 +112,7 @@ function removeTemplate( parent, owner, repo, version ) {
 }
 
 module.exports = {
+	getCommands: getCommands,
 	listDirectories: listDirectories,
 	listFiles: listFiles,
 	listInstalls: listInstalls,

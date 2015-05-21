@@ -57,6 +57,22 @@ describe( 'File System', function() {
 		} );
 	} );
 
+	describe( 'when getting commands', function() {
+		var list;
+		before( function() {
+			return fs.getCommands( path.resolve( './spec/data/one/template/v0.0.5' ) )
+				.then( function( result ) {
+					list = result;
+				} );
+		} );
+
+		it( 'should return command files only', function() {
+			list.should.eql( [
+				path.resolve( './spec/data/one/template/v0.0.5/.commands.json' )
+			] );
+		} );
+	} );
+
 	describe( 'when listing installs', function() {
 		it( 'should create a datastructure containing installed repos and versions', function() {
 			return fs.listInstalls( path.resolve( './spec/data' ) )

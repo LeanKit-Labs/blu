@@ -53,12 +53,12 @@ describe( 'Templates', function() {
 							'npm-clear': {
 								cwd: './',
 								cmd: {
-									win32: 'deltree',
-									'*': 'rm'
+									win32: 'dir',
+									'*': 'ls'
 								},
 								args: {
 									win32: [ './node_modules' ],
-									'*': [ '-rf', './node_modules' ]
+									'*': [ '-al', './node_modules' ]
 								}
 							}
 						},

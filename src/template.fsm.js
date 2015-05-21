@@ -9,9 +9,6 @@ function createFsm( targetPath, template ) {
 	return new machina.Fsm( {
 			initialize: function() {
 				this.steps = [];
-				if ( template.commands && !_.isEmpty( template.commands.before ) ) {
-					this.steps.push( 'pre' );
-				}
 				if ( template.prompts && !_.isEmpty( template.prompts ) ) {
 					this.steps.push( 'prompt' );
 				}
@@ -53,18 +50,6 @@ function createFsm( targetPath, template ) {
 			initialState: 'initialize',
 			states: {
 				initialize: {},
-				pre: {
-					'_onEnter': function() {
-						var steps = drudgeon( template.commands.before );
-						steps.on( 'starting.#', function( x ) {
-							console.log( 'starting pre-expand step:', x );
-						} );
-						steps.run()
-							.then(
-								this.next.bind( this ),
-								this.reject.bind( this, 'pre' ) );
-					}
-				},
 				prompt: {
 					'_onEnter': function() {
 						prompt( template.prompts )
