@@ -2,7 +2,6 @@ var when = require( 'when' );
 var lift = require( 'when/node' ).lift;
 var Api = require( 'github' );
 var request = require( 'request' );
-var drudgeon = require( 'drudgeon' );
 var fs = require( 'fs' );
 var path = require( 'path' );
 var mkdirp = require( 'mkdirp' );
@@ -76,29 +75,8 @@ function extractRelease( release ) {
 	} );
 }
 
-function installModules( release ) {
-	var steps = drudgeon( {
-		'npm-libs': {
-			'path': release,
-			'cmd': {
-				'win32': 'npm.cmd',
-				'*': 'npm'
-			},
-			'args': [ 'install' ]
-		}
-	} );
-	steps.on( 'starting.#', function( x ) {
-		console.log( 'installing template prerequisites:', x );
-	} );
-	return steps.run()
-		.then( function() {
-			return release;
-		} );
-}
-
 module.exports = {
 	getList: getReleaseList,
-	installModules: installModules,
 	download: downloadRelease,
 	extract: extractRelease
 };

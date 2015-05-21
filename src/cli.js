@@ -8,6 +8,7 @@ var path = require( 'path' );
 var templateFsm = require( './template.fsm' );
 var releases = require( './gh' );
 var templates = require( './template' );
+var npm = require( './npm' );
 var create = templates.init( ROOT_PATH );
 
 function createVersion( owner, repo, version, item ) {
@@ -136,7 +137,8 @@ function installVersion( owner, repo, version, versions ) {
 
 function onDownload( result ) {
 	return releases.extract( result )
-		.then( releases.installModules );
+		.then( npm.installModules )
+		.then( fs.movePackage );
 }
 
 function items( owner, repo, version ) {

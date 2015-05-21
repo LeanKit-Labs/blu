@@ -1,6 +1,6 @@
 {
   "name": "blu",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "GitHub powered project templating",
   "bin": {
     "blu": "./bin/blu"
@@ -38,11 +38,12 @@
     "gulp": "^3.8.11",
     "proxyquire": "^1.4.0",
     "rimraf": "^2.3.3",
-    "sinon": "^1.14.1"
+    "sinon": "^1.14.1",
+    "sinon-as-promised": "^3.0.0"
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "drudgeon": "^0.1.6",
+    "drudgeon": "^0.1.7",
     "github": "^0.2.4",
     "inquirer": "^0.8.2",
     "lodash": "^3.6.0",

@@ -52,12 +52,8 @@ function loadVersion( owner, repo, versionPaths, version ) {
 			) );
 		return when.reject( error );
 	}
-	return fs.getCommands( versionPath )
-		.then( onCommands )
-		.then( function() {
-			return fs.listFiles( versionPath )
-				.then( onFiles.bind( undefined, versionPath ) );
-		} );
+	return fs.listFiles( versionPath )
+		.then( onFiles.bind( undefined, versionPath ) );
 }
 
 function createTemplate( base, owner, repo ) {
@@ -81,21 +77,6 @@ function createTemplate( base, owner, repo ) {
 	}
 	return fs.listDirectories( templatePath )
 		.then( onVersions, onError );
-}
-
-function onCommands( files ) {
-	return when.all( _.map( files, function( file ) {
-		var commands = require( file );
-		if ( commands.before ) {
-			var steps = drudgeon( commands.before );
-			steps.on( 'starting.#', function( x ) {
-				console.log( 'starting pre-expand step:', x );
-			} );
-			return steps.run();
-		} else {
-			return when.resolve();
-		}
-	} ) );
 }
 
 function onFiles( versionPath, files ) {

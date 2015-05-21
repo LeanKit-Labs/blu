@@ -120,6 +120,19 @@ This example demonstrates before and after sets of tasks. The before will delete
 ### Support Files
 Because the `.prompts.js` and `.context.js` files can make use of custom code, you can store detailed support functionality under a `_support` folder to require into either of these files that will not be copied during project creation.
 
+#### .dependencies.json
+You can define NPM dependencies for your template in this file. The format is the same as the `"dependencies"` block in a `package.json` file:
+
+```json
+{
+	"lodash": "~3.9.1",
+	"when": "^3.7.3"
+}
+```
+
+#### package.json
+If you want to include a package.json file that blu will template for you, you'll need to place it in the `_support` directory. _Failing to remember this will cause your templates to break._
+
 ## CLI
 
 ## Managing Templates

@@ -37,7 +37,6 @@ describe( 'GitHub Integration', function() {
 			} );
 
 			after( function() {
-				fs.unlinkSync( download.file );
 				rimraf.sync( './downloads' );
 			} );
 		} );
