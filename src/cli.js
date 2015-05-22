@@ -9,7 +9,20 @@ var templateFsm = require( './template.fsm' );
 var releases = require( './gh' );
 var templates = require( './template' );
 var npm = require( './npm' );
+var authToken = require( './authToken' );
 var create = templates.init( ROOT_PATH );
+
+function createToken() {
+	function onFinished() {
+		console.log( 'Auth token created successfully' );
+	}
+
+	function onError( err ) {
+		console.error( 'Creating auth token failed with:', err.message );
+	}
+
+	authToken.create().then( onFinished, onError );
+}
 
 function createVersion( owner, repo, version, item ) {
 	var onVersion = item ? createItem.bind( undefined, item ) : createTemplate;
@@ -88,6 +101,10 @@ function getTemplate( owner, repo, version ) {
 }
 
 function getVersions( owner, repo ) {
+	if ( authToken.value ) {
+		releases.authenticate( authToken.value );
+	}
+
 	function onError( err ) {
 		console.error( util.format(
 			'Requesting a version list for "%s/%s" from GitHub failed with %s',
@@ -131,7 +148,7 @@ function installVersion( owner, repo, version, versions ) {
 		version = latest.version;
 		url = latest.url;
 	}
-	releases.download( ROOT_PATH, owner, repo, version, url )
+	releases.download( ROOT_PATH, owner, repo, version, url, authToken.value )
 		.then( onDownload );
 }
 
@@ -198,6 +215,7 @@ function remove( owner, repo, version ) {
 }
 
 module.exports = {
+	auth: createToken,
 	create: createVersion,
 	getVersions: getVersionList,
 	install: install,

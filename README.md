@@ -148,7 +148,7 @@ blu install owner/repository
 ```
 
 #### Specific Version
-If a version is specified, `blu` will install that specififed tag version locally for future use.
+If a version is specified, `blu` will install that specified tag version locally for future use.
 
 ```bash
 blu install owner/repository v0.1.0
@@ -159,6 +159,13 @@ Returns a list of all tags on the repository in GitHub.
 
 ```bash
 blu tags owner/repository
+```
+
+### GitHub Auth Token
+If you are installing a template from a private repository, then this option will prompt for GitHub credentials.
+
+```bash
+blu auth
 ```
 
 ### List Installed Templates and Versions
