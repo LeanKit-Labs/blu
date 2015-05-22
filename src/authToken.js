@@ -7,12 +7,16 @@ var tokenPath = path.join( process.env.HOME,  '.blu/.api-token' );
 var api = require( './gh' );
 var tokenValue = "";
 
-function writeToken( doc ) {
-	return lift( fs.writeFile )( tokenPath, doc.token );
-}
-
 function createToken() {
 	return promptUser().then( api.createToken ).then( writeToken );
+}
+
+function getToken() {
+	if ( !tokenValue && fs.existsSync( tokenPath ) ) {
+		tokenValue = fs.readFileSync( tokenPath );
+	}
+
+	return tokenValue;
 }
 
 function promptUser() {
@@ -37,12 +41,8 @@ function promptUser() {
 	} );
 }
 
-function getToken() {
-	if ( !tokenValue && fs.existsSync( tokenPath ) ) {
-		tokenValue = fs.readFileSync( tokenPath );
-	}
-
-	return tokenValue;
+function writeToken( doc ) {
+	return lift( fs.writeFile )( tokenPath, doc.token );
 }
 
 var authToken = {

@@ -18,18 +18,18 @@ var github = new Api( {
 	}
 } );
 
-function authenticateToken( token ) {
-	github.authenticate( {
-		type: 'oauth',
-		token: token
-	} );
-}
-
 function authenticateBasic( username, password ) {
 	github.authenticate( {
 		type: 'basic',
 		username: username,
 		password: password
+	} );
+}
+
+function authenticateToken( token ) {
+	github.authenticate( {
+		type: 'oauth',
+		token: token
 	} );
 }
 
