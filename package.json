@@ -39,7 +39,8 @@
     "proxyquire": "^1.4.0",
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
-    "sinon-as-promised": "^3.0.0"
+    "sinon-as-promised": "^3.0.0",
+    "sinon-chai": "^2.7.0"
   },
   "dependencies": {
     "commander": "^2.8.1",
