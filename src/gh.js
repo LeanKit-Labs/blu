@@ -69,6 +69,7 @@ function extractRelease( release ) {
 				reject( err );
 			} )
 			.on( 'end', function() {
+				fs.unlinkSync( release.file );
 				resolve( release.dir );
 			} );
 	} );

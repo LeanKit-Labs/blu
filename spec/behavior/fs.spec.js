@@ -3,15 +3,21 @@ var path = require( 'path' );
 var removed;
 var exists = false;
 
+var rename = sinon.stub();
+
 var fs = proxyquire( '../src/fs', {
 	rimraf: function( remove, cb ) {
 		removed = remove;
 		cb();
 	},
 	fs: {
+		exists: function( x, cb ) {
+			cb( true );
+		},
 		existsSync: function() {
 			return exists;
-		}
+		},
+		rename: rename
 	}
 } );
 
@@ -49,6 +55,7 @@ describe( 'File System', function() {
 				path.resolve( './spec/data/one/template/v0.0.5/_items/resource/.prompt.js' ),
 				path.resolve( './spec/data/one/template/v0.0.5/_items/resource/.structure.json' ),
 				path.resolve( './spec/data/one/template/v0.0.5/_items/resource/resource.js' ),
+				path.resolve( './spec/data/one/template/v0.0.5/_support/.dependencies.json' ),
 				path.resolve( './spec/data/one/template/v0.0.5/_support/utility.js' ),
 				path.resolve( './spec/data/one/template/v0.0.5/gulpfile.js' ),
 				path.resolve( './spec/data/one/template/v0.0.5/package.json' ),
@@ -67,6 +74,16 @@ describe( 'File System', function() {
 						'v0.1.0'
 					]
 				}
+			} );
+		} );
+	} );
+
+	describe( 'when getting template dependencies', function() {
+		it( 'should return dependency hash', function() {
+			return fs.getDependencies( path.resolve( './spec/data/one/template/v0.0.5' ) )
+				.should.eventually.eql( {
+				'lodash': '*',
+				'pluralize': '*'
 			} );
 		} );
 	} );
@@ -114,6 +131,27 @@ describe( 'File System', function() {
 		after( function() {
 			exists = false;
 			removed = undefined;
+		} );
+	} );
+
+	describe( 'when moving package file', function() {
+		var oldPath = '/project/location/_support/package.json';
+		var newPath = '/project/location/package.json';
+		before( function() {
+			rename
+				.withArgs( oldPath, newPath, sinon.match.any )
+				.callsArg( 2 )
+				.resolves();
+		} );
+
+		it( 'should move the file to the correct location', function() {
+			return fs.movePackage( '/project/location' )
+				.should.eventually.be.fulfilled;
+		} );
+
+		it( 'should have called stub', function() {
+			sinon.assert.calledOnce( rename );
+			sinon.assert.calledWith( rename, oldPath, newPath, sinon.match.any );
 		} );
 	} );
 } );

@@ -6,6 +6,7 @@ var path = require( 'path' );
 var mkdirp = require( 'mkdirp' );
 var when = require( 'when' );
 var semver = require( 'semver' );
+var drudgeon = require( 'drudgeon' );
 
 function init( base ) {
 	base = base.replace( /~/, process.env.HOME );
@@ -52,22 +53,7 @@ function loadVersion( owner, repo, versionPaths, version ) {
 		return when.reject( error );
 	}
 	return fs.listFiles( versionPath )
-		.then( function( files ) {
-			return _.reduce( files, function( acc, file ) {
-				if ( /[\/][_]items/.test( file ) ) {
-					acc.items = acc.items || {};
-					var itemName = /[_]items[\/]([a-zA-Z0-9 ]*)/.exec( file )[ 1 ];
-					var item = acc.items[ itemName ] || {
-						path: path.join( versionPath, '_items', itemName )
-					};
-					acc.items[ itemName ] = item;
-					attachFile( item, file );
-				} else {
-					attachFile( acc, file );
-				}
-				return acc;
-			}, { path: versionPath } );
-		} );
+		.then( onFiles.bind( undefined, versionPath ) );
 }
 
 function createTemplate( base, owner, repo ) {
@@ -91,6 +77,23 @@ function createTemplate( base, owner, repo ) {
 	}
 	return fs.listDirectories( templatePath )
 		.then( onVersions, onError );
+}
+
+function onFiles( versionPath, files ) {
+	return _.reduce( files, function( acc, file ) {
+		if ( /[\/][_]items/.test( file ) ) {
+			acc.items = acc.items || {};
+			var itemName = /[_]items[\/]([a-zA-Z0-9 ]*)/.exec( file )[ 1 ];
+			var item = acc.items[ itemName ] || {
+				path: path.join( versionPath, '_items', itemName )
+			};
+			acc.items[ itemName ] = item;
+			attachFile( item, file );
+		} else {
+			attachFile( acc, file );
+		}
+		return acc;
+	}, { path: versionPath } );
 }
 
 module.exports = {

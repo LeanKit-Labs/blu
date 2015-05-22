@@ -5,6 +5,25 @@ var when = require( 'when' );
 var lift = require( 'when/node' ).lift;
 var util = require( 'util' );
 var rimraf = require( 'rimraf' );
+var PACKAGE = 'package.json';
+
+function movePackage( current ) {
+	var packageFile = path.join( path.resolve( current ), '_support', PACKAGE );
+	var projectPath = path.dirname( packageFile );
+	var projectLocation = path.resolve( projectPath, '../', PACKAGE );
+	return when.promise( function( resolve ) {
+		fs.exists( packageFile, function( exists ) {
+			if ( exists ) {
+				lift( fs.rename )( packageFile, projectLocation )
+					.then( function() {
+						resolve( current );
+					} );
+			} else {
+				resolve( current );
+			}
+		} );
+	} );
+}
 
 function listDirectories( parent ) {
 	parent = parent.replace( /~/, process.env.HOME );
@@ -22,6 +41,19 @@ function listDirectories( parent ) {
 	}
 	return lift( fs.readdir )( parent )
 		.then( onFiles );
+}
+
+function getDependencies( current ) {
+	var dependencies = path.join( path.resolve( current ), '_support', '.dependencies.json' );
+	return when.promise( function( resolve ) {
+		fs.exists( dependencies, function( exists ) {
+			if ( exists ) {
+				resolve( require( dependencies ) );
+			} else {
+				resolve( {} );
+			}
+		} );
+	} );
 }
 
 function getTree( current, depth ) {
@@ -102,8 +134,10 @@ function removeTemplate( parent, owner, repo, version ) {
 }
 
 module.exports = {
+	getDependencies: getDependencies,
 	listDirectories: listDirectories,
 	listFiles: listFiles,
 	listInstalls: listInstalls,
+	movePackage: movePackage,
 	removeTemplate: removeTemplate
 };
