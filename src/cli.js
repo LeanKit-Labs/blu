@@ -9,7 +9,7 @@ var templateFsm = require( './template.fsm' );
 var releases = require( './gh' );
 var templates = require( './template' );
 var npm = require( './npm' );
-var authToken = require( './authToken' );
+var accessToken = require( './accessToken' );
 var create = templates.init( ROOT_PATH );
 
 function createToken() {
@@ -21,7 +21,7 @@ function createToken() {
 		console.error( 'Creating auth token failed with:', err.message );
 	}
 
-	authToken.create().then( onFinished, onError );
+	accessToken.create().then( onFinished, onError );
 }
 
 function createVersion( owner, repo, version, item ) {
@@ -101,8 +101,8 @@ function getTemplate( owner, repo, version ) {
 }
 
 function getVersions( owner, repo ) {
-	if ( authToken.value ) {
-		releases.authenticate( authToken.value );
+	if ( accessToken.value ) {
+		releases.authenticate( accessToken.value );
 	}
 
 	function onError( err ) {
@@ -148,7 +148,7 @@ function installVersion( owner, repo, version, versions ) {
 		version = latest.version;
 		url = latest.url;
 	}
-	releases.download( ROOT_PATH, owner, repo, version, url, authToken.value )
+	releases.download( ROOT_PATH, owner, repo, version, url, accessToken.value )
 		.then( onDownload );
 }
 

@@ -45,13 +45,13 @@ function writeToken( doc ) {
 	return lift( fs.writeFile )( tokenPath, doc.token );
 }
 
-var authToken = {
+var accessToken = {
 	create: createToken
 };
 
-Object.defineProperty( authToken, 'value', {
+Object.defineProperty( accessToken, 'value', {
 	enumerable: true,
 	get: getToken
 } );
 
-module.exports = authToken;
+module.exports = accessToken;

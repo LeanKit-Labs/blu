@@ -2,8 +2,8 @@ require( '../setup' );
 
 var path = require( 'path' );
 
-describe( 'Auth tokens', function() {
-	var stubs, authToken;
+describe( 'Access tokens', function() {
+	var stubs, accessToken;
 
 	var tokenReadValue = "readValue";
 
@@ -32,13 +32,13 @@ describe( 'Auth tokens', function() {
 			}
 		};
 
-		authToken = proxyquire( '../src/authToken', stubs );
+		accessToken = proxyquire( '../src/accessToken', stubs );
 	} );
 
 
 	describe( "Creating an auth token", function() {
 		before( function() {
-			return authToken.create().should.eventually.be.fulfilled;
+			return accessToken.create().should.eventually.be.fulfilled;
 		} );
 
 		it( 'should prompt the user', function() {
@@ -56,24 +56,24 @@ describe( 'Auth tokens', function() {
 
 	describe( 'Retrieving the auth token value', function() {
 		it( 'should load the token from the filesystem on first access', function() {
-			authToken.value.should.equal( tokenReadValue );
+			accessToken.value.should.equal( tokenReadValue );
 			stubs.fs.readFileSync.should.be.calledOnce.and.calledWith( path.join( process.env.HOME,  '.blu/.api-token' ) );
 		} );
 
 		it( 'should return a cached value, if previously loaded from the filesystem', function() {
-			authToken.value.should.equal( tokenReadValue );
+			accessToken.value.should.equal( tokenReadValue );
 			// still only called once
 			stubs.fs.readFileSync.should.be.calledOnce;
 		} );
 
 		it( 'should return an empty string, if there is no file', function() {
-			authToken = proxyquire( '../src/authToken', {
+			accessToken = proxyquire( '../src/accessToken', {
 				fs: {
 					existsSync: sinon.stub().returns( false )
 				}
 			} );
 
-			authToken.value.should.equal( '' );
+			accessToken.value.should.equal( '' );
 		} );
 	} );
 } );
