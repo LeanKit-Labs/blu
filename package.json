@@ -1,6 +1,6 @@
 {
   "name": "blu",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "GitHub powered project templating",
   "bin": {
     "blu": "./bin/blu"
@@ -21,6 +21,10 @@
     {
       "name": "Alex Robson",
       "url": "http://nerdventure.io"
+    },
+    {
+      "name": "Ryan Niemeyer",
+      "url": "http://knockmeout.net"
     }
   ],
   "license": "MIT License - http://opensource.org/licenses/MIT",

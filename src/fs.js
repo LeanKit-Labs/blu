@@ -84,7 +84,7 @@ function getTree( current, depth ) {
 function listFiles( current ) {
 	function fork( file, stat ) {
 		if ( stat.isDirectory() ) {
-			return file === '.git' ? undefined : listFiles( path.join( current, file ) );
+			return file === '.git' || file === 'node_modules' ? undefined : listFiles( path.join( current, file ) );
 		} else {
 			return path.join( current, file );
 		}
