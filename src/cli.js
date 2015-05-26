@@ -74,7 +74,7 @@ function createTemplate( template ) {
 			console.error( util.format(
 				'Template failed on step "%s" with error: %s',
 				err.step,
-				err.error.message
+				err.error
 			) );
 		} else {
 			console.error( 'Template failed with the error:', err.message );
