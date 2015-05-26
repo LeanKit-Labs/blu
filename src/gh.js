@@ -18,6 +18,38 @@ var github = new Api( {
 	}
 } );
 
+function authenticateBasic( username, password ) {
+	github.authenticate( {
+		type: 'basic',
+		username: username,
+		password: password
+	} );
+}
+
+function authenticateToken( token ) {
+	github.authenticate( {
+		type: 'oauth',
+		token: token
+	} );
+}
+
+function createToken( options ) {
+	authenticateBasic( options.username, options.password );
+
+	var request = {
+		scopes: [ 'repo' ],
+		note: 'Token obtained by blu on ' + new Date().toLocaleString()
+	};
+
+	if ( options.twoFactorToken ) {
+		request.headers = {
+			'X-GitHub-OTP': options.twoFactorToken
+		};
+	}
+
+	return lift( github.authorization.create )( request );
+}
+
 function getReleaseList( owner, repo ) {
 	return lift( github.repos.getTags )(
 		{
@@ -32,7 +64,7 @@ function getReleaseList( owner, repo ) {
 	} );
 }
 
-function downloadRelease( target, owner, project, tag, url ) {
+function downloadRelease( target, owner, project, tag, url, twoFactorToken ) {
 	target = target.replace( /~/, process.env.HOME );
 	var dir = path.join( path.resolve( target ), owner, project, tag );
 	var file = path.join( dir, 'release.tar.gz' );
@@ -45,11 +77,18 @@ function downloadRelease( target, owner, project, tag, url ) {
 				resolve( { dir: dir, file: file } );
 			}
 		}
+
+		var headers = {
+			'user-agent': 'blu'
+		};
+
+		if ( twoFactorToken ) {
+			headers.Authorization = 'token ' + twoFactorToken;
+		}
+
 		request( {
 			url: url,
-			headers: {
-				'user-agent': 'blu'
-			}
+			headers: headers
 		} )
 			.pipe( fs.createWriteStream( file ) )
 			.on( 'error', function( err ) {
@@ -76,6 +115,8 @@ function extractRelease( release ) {
 }
 
 module.exports = {
+	authenticate: authenticateToken,
+	createToken: createToken,
 	getList: getReleaseList,
 	download: downloadRelease,
 	extract: extractRelease

@@ -4,6 +4,7 @@ var package = require( '../package.json' );
 function parse( args ) {
 	commander
 		.version( package.version )
+		.command( 'auth', 'If using private repositories, specify GitHub credentials' )
 		.command( 'create <repo> [version]', 'Creates a new project from a template.' )
 		.command( 'install <repo> [version]', 'Install a template from a GitHub repository.' )
 		.command( 'item <repo> [item] [version]', 'Creates a new project from a template.' )
