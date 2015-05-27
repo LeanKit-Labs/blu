@@ -1,5 +1,8 @@
 ## 0.1.x
 
+### 0.1.4
+Bug fix - auth command was missing executable flag
+
 ### 0.1.3
  * Add support for private GitHub template repositories (thanks, @rniemeyer!)
  * Bug fix - prevent blu from including node_modules in template
